@@ -12,7 +12,7 @@
         <converters:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
         <converters:BoolVisibilityMultiConverter x:Key="BoolVisibilityMultiConverter"/>
     </Page.Resources>
-    <Grid DataContext="{Binding MainWindow.DataContext, Source={x:Static Application.Current}}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -67,7 +67,7 @@
             </Grid.ColumnDefinitions>
             <Button Content="New User" Grid.Column="0" HorizontalAlignment="Center" Command="{Binding AddUserCommand}"/>
             <Button Content="Delete User" Grid.Column="1" HorizontalAlignment="Center" Command="{Binding RemoveUserCommand}" CommandParameter="{Binding ElementName=UserList}" IsEnabled="{Binding AUserSelected}"/>
-            <Button Content="Play" Grid.Column="2" HorizontalAlignment="Center" Command="{Binding SwitchViewsCommand}" CommandParameter="{x:Type local:GameView}" IsEnabled="{Binding AUserSelected}"/>
+            <Button Content="Play" Grid.Column="2" HorizontalAlignment="Center" Command="{Binding MainWindow.DataContext.StartGameCommand, Source={x:Static Application.Current}}" IsEnabled="{Binding AUserSelected}"/>
             <Button Content="Cancel" Grid.Column="3" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>

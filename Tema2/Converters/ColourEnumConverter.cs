@@ -4,6 +4,7 @@ using System.Media;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
+using System.Windows;
 using System.Windows.Media;
 
 namespace Tema2.Converters
@@ -12,9 +13,8 @@ namespace Tema2.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is char)
+            if(value is char c)
             {
-                char c= (char)value;
                 if (c == 'l')
                     return Brushes.LightGray;
                 else
@@ -25,9 +25,8 @@ namespace Tema2.Converters
                         return Brushes.Red;
                 }
             }
-            else
-                throw new ArgumentException();
-            
+            return Binding.DoNothing;
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

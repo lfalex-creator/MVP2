@@ -5,15 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tema2"
         xmlns:ctx="clr-namespace:Tema2.VMs"
+        xmlns:views="clr-namespace:Tema2.Views"
         mc:Ignorable="d"
         Title="Hangman" Height="450" Width="800">
     <Window.DataContext>
-        <ctx:MainScreenVM />
+        <ctx:BaseVM/>
     </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type ctx:MainScreenVM}">
+            <views:MainScreenView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type ctx:GameVM}">
+            <views:GameView/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Border Background="PaleVioletRed">
             <Frame NavigationUIVisibility="Hidden"
-                   Content="{Binding CurrentView}"/>
+                   Content="{Binding CurrentVM}"/>
         </Border>
     </Grid>
 </Window>

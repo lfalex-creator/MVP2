@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,14 +17,17 @@ using Tema2.Views;
 
 namespace Tema2.VMs
 {
-    internal class MainScreenVM : BaseVM, IDisposable
+    internal class MainScreenVM : INotifyPropertyChanged
     {
-        protected override void SwitchView(Type classType)
-        {
-            CurrentView = (Page)Activator.CreateInstance(classType, SelectedListItem, Users);
-        }
 
         public ICommand NextImageCommand { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void NextImage()
         {
@@ -31,6 +36,7 @@ namespace Tema2.VMs
             if (imageNumber == 5)
                 imageNumber = 1;
             SelectedListItem.ImagePath = $"pack://application:,,,/imgs/{imageNumber}.jpg";
+           //NotifyPropertyChanged("LocalImage");
         }
 
         public ICommand PreviousImageCommand { get; set; }
@@ -42,9 +48,9 @@ namespace Tema2.VMs
             if (imageNumber == 0)
                 imageNumber = 4;
             SelectedListItem.ImagePath = $"pack://application:,,,/imgs/{imageNumber}.jpg";
+            //NotifyPropertyChanged("LocalImage");
         }
         public ObservableCollection<UserModel> Users { get; set; }
-        private CollectionSerializationService<UserModel> userSerialization;
 
         public ICommand AddUserCommand { get; set; }
         public void AddUser()
@@ -115,38 +121,19 @@ namespace Tema2.VMs
             Users.Remove(SelectedListItem);
             SelectedListItem = null;
         }
-
-        public void SerialiseUsers()
+        public MainScreenVM(ObservableCollection<UserModel> users)
         {
-            userSerialization.Serialize();
-        }
-        public void DeserialiseUsers()
-        {
-            userSerialization.Deserialize();
-        }
-        public MainScreenVM()
-        {
-
-            CurrentView = new MainScreenView();
-            Users= new ObservableCollection<UserModel>();
-            userSerialization = new(Users);
+            Users= users;
+            SelectedListItem= null;
 
             //imageNumer = 1;
             //ImagePath = "pack://application:,,,/imgs/1.jpg";
 
-            SwitchViewsCommand = new RelayCommand<Type>(SwitchView);
             NextImageCommand = new IndependentExecutionCommand(NextImage);
             PreviousImageCommand=new IndependentExecutionCommand(PreviousImage);
             AddUserCommand = new IndependentExecutionCommand(AddUser);
             RemoveUserCommand = new IndependentExecutionCommand(RemoveUser);
             ChooseImageCommand = new IndependentExecutionCommand(ChangeImage);
-
-            DeserialiseUsers();
-        }
-
-        public void Dispose()
-        {
-            SerialiseUsers();
         }
 
         public ICommand ChooseImageCommand { get; set;  }
@@ -156,6 +143,7 @@ namespace Tema2.VMs
             dialog.ShowDialog();
             string result = dialog.FileName.Replace("\\","/");
             SelectedListItem.ImagePath = result;
+            //NotifyPropertyChanged("LocalImage");
         }
     }
 }

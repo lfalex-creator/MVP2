@@ -12,15 +12,12 @@
       PreviewKeyDown="RevealLetter"
       Focusable="True"
       Loaded="Page_Loaded">
-    <Page.DataContext>
-        <ctx:GameVM/>
-    </Page.DataContext>
-
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Width" Value="17"/>
         </Style>
+        
         <converters:ColourEnumConverter x:Key="ColourEnumConverter"/>
     </Page.Resources>
     <Page.InputBindings>
@@ -28,7 +25,8 @@
         <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenGameCommand}"/>
         <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewGameCommand}"/>
         <KeyBinding Key="H" Modifiers="Control" Command="{Binding ShowStatisticsCommand}"/>
-
+        <KeyBinding Key="L" Modifiers="Control" Command="{Binding MainWindow.DataContext.BackToMainScreenCommand, Source={x:Static Application.Current}}"/>
+        
         <KeyBinding Key="A" Modifiers="Control" Command="{Binding SelectNewCategoryCommand}" CommandParameter="All"/>
         <KeyBinding Key="C" Modifiers="Control" Command="{Binding SelectNewCategoryCommand}" CommandParameter="Cars"/>
         <KeyBinding Key="M" Modifiers="Control" Command="{Binding SelectNewCategoryCommand}" CommandParameter="Movies"/>
@@ -53,7 +51,7 @@
                 <MenuItem Header="Open Game" Command="{Binding OpenGameCommand}"/>
                 <MenuItem Header="Save Game" Command="{Binding SaveGameCommand}"/>
                 <MenuItem Header="Statistics" Command="{Binding ShowStatisticsCommand}"/>
-                <MenuItem Header="Close" Command="{Binding SwitchViewsCommand}" CommandParameter="{x:Type local:MainScreenView}"/>
+                <MenuItem Header="Close" Command="{Binding MainWindow.DataContext.BackToMainScreenCommand, Source={x:Static Application.Current}}"/>
             </MenuItem>
             <MenuItem Header="Categories" ItemsSource="{Binding CheckedMenuItems}">
                 <MenuItem.ItemContainerStyle>
@@ -108,7 +106,7 @@
             </ItemsControl>
         </Grid>
         <Label Content="{Binding WordType}" FontSize="40" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,80"/>
-        <ItemsControl ItemsSource="{Binding displayString}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,50">
+        <ItemsControl ItemsSource="{Binding DisplayString}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,50">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>

@@ -21,11 +21,9 @@ namespace Tema2.Views
     /// </summary>
     public partial class GameView : Page
     {
-        public GameView(UserModel? selectedUser, ObservableCollection<UserModel> Users)
+        public GameView()
         {
             InitializeComponent();
-            (DataContext as GameVM).User = selectedUser;
-            (DataContext as GameVM).Users = Users.ToList();
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {

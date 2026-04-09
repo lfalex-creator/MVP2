@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +14,7 @@ using Tema2.Services;
 
 namespace Tema2.VMs
 {
-    class GameVM :BaseVM
+    class GameVM : INotifyPropertyChanged
     {
         public ObservableCollection<ButtonModel> Buttons {  get; set; }
         private Dictionary<char, ButtonModel> buttonsFromLetters;
@@ -28,10 +30,16 @@ namespace Tema2.VMs
             set { _wordType = value; NotifyPropertyChanged(); }
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private string wordString;
         private char[] backingDisplayArray;
-        public string displayString {
+        public string DisplayString {
             get
             {
                 return new string(backingDisplayArray);
@@ -41,11 +49,6 @@ namespace Tema2.VMs
                 backingDisplayArray = value.ToArray();
                 NotifyPropertyChanged();
             }
-        }
-
-        protected override void SwitchView(Type classType)
-        {
-            CurrentView = (Page)Activator.CreateInstance(classType);
         }
 
         private void selectRandomWord()
@@ -67,7 +70,7 @@ namespace Tema2.VMs
                 else
                     backingDisplayArray[i] = '_';
             }
-            displayString= new string(backingDisplayArray);
+            DisplayString= new string(backingDisplayArray);
             
         }
         public ICommand RevealLetterCommand { get; set; }
@@ -89,7 +92,7 @@ namespace Tema2.VMs
                         if (k == wordString[i])
                             backingDisplayArray[i] = k;
 
-                    displayString = new string(backingDisplayArray);
+                    DisplayString = new string(backingDisplayArray);
 
                     if (backingDisplayArray.Contains('_') == false)
                     {
@@ -162,17 +165,19 @@ namespace Tema2.VMs
             }
         }
         private TimerService timer;
-        public GameVM()
+        public GameVM(UserModel? selectedUser, ObservableCollection<UserModel> Users)
         {
             Buttons = new ObservableCollection<ButtonModel>();
             Words = new ObservableCollection<WordModel>();
             Lives = new ObservableCollection<LetterModel>();
             CheckedMenuItems = new ObservableCollection<CheckedMenuItemModel>();
 
+            User = selectedUser;
+            this.Users = Users.ToList();
+
             RevealLetterCommand = new RelayCommand<Key>(RevealLetter);
             SelectNewCategoryCommand = new RelayCommand<string>(SelectNewCategory);
             NewGameCommand = new IndependentExecutionCommand(Reset);
-            SwitchViewsCommand =new RelayCommand<Type>(SwitchView);
             SaveGameCommand = new IndependentExecutionCommand(SaveCurrentGame);
             OpenGameCommand = new IndependentExecutionCommand(OpenGame);
             ShowStatisticsCommand = new IndependentExecutionCommand(ShowStatistics);
@@ -206,7 +211,7 @@ namespace Tema2.VMs
 
             selectRandomWord();
 
-            CurrentGame = new GameModel() { Level = LevelNumber, Word = wordString, DisplayWord = displayString };
+            CurrentGame = new GameModel() { Level = LevelNumber, Word = wordString, DisplayWord = DisplayString };
             gameSerializationService = new(CurrentGame);
 
             timer.Start();
@@ -300,7 +305,7 @@ namespace Tema2.VMs
                 CurrentGame.Level = LevelNumber;
                 CurrentGame.NameOfUser = User.Name;
                 CurrentGame.Word = wordString;
-                CurrentGame.DisplayWord = displayString;
+                CurrentGame.DisplayWord = DisplayString;
                 CurrentGame.ClockValue = ClockValue;
                 CurrentGame.Lives = new bool[6];
                 for (int i = 0; i < 6; i++)
@@ -313,7 +318,7 @@ namespace Tema2.VMs
             {
                 LevelNumber = CurrentGame.Level;
                 wordString = CurrentGame.Word;
-                displayString = CurrentGame.DisplayWord;
+                DisplayString = CurrentGame.DisplayWord;
                 ClockValue = CurrentGame.ClockValue;
 
                 int temp = 0;

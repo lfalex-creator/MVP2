@@ -12,8 +12,17 @@ namespace Tema2.Converters
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
                 foreach(var b in values)
-                    if (!(bool)b)
-                        return Visibility.Collapsed;
+                {
+                    if (b is bool boolValue)
+                    {
+                        if (!boolValue)
+                            return Visibility.Collapsed;
+                    }
+                    else
+                    {
+                    return Binding.DoNothing;
+                }
+                }
                 return Visibility.Visible;
             }
 

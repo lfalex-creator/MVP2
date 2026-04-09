@@ -21,13 +21,11 @@ namespace Tema2
         public MainWindow()
         {
            InitializeComponent();
-
-
            this.Closing += (s, e) =>
            {
-                if (DataContext is IDisposable vm)
-                    vm.Dispose();
+                if (DataContext is BaseVM vm)
+                    vm.SerialiseUsers();
            };
         }
-    }
+}
 }

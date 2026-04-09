@@ -21,6 +21,12 @@ namespace Tema2.Views
         public MainScreenView()
         {
             InitializeComponent();
+
+            this.Unloaded += (s, e) =>
+            {
+                if (DataContext is IDisposable vm)
+                    vm.Dispose();
+            };
         }
     }
 }
