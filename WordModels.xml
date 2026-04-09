@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfWordModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <WordModel>
+    <Text>TOYOTA COROLLA</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>FORD MUSTANG</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>HONDA CIVIC</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>CHEVROLET CAMARO</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>AUDI</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>MERCEDES-BENZ C-CLASS</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>VOLKSWAGEN GOLF</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>TESLA</Text>
+    <Type>Car</Type>
+  </WordModel>
+  <WordModel>
+    <Text>NISSAN ALTIMA</Text>
+    <Type>Car</Type>
+  </WordModel>
+
+  <WordModel>
+    <Text>INCEPTION</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>THE GODFATHER</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>TITANIC</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>AVATAR</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>THE DARK KNIGHT</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>FORREST GUMP</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>GLADIATOR</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>JURASSIC PARK</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>THE MATRIX</Text>
+    <Type>Movie</Type>
+  </WordModel>
+  <WordModel>
+    <Text>INTERSTELLAR</Text>
+    <Type>Movie</Type>
+  </WordModel>
+
+  <WordModel>
+    <Text>CALIFORNIA</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>TEXAS</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>FLORIDA</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>NEW YORK</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>ILLINOIS</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>PENNSYLVANIA</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>OHIO</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>GEORGIA</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>NORTH CAROLINA</Text>
+    <Type>State</Type>
+  </WordModel>
+  <WordModel>
+    <Text>MICHIGAN</Text>
+    <Type>State</Type>
+  </WordModel>
+
+  <WordModel>
+    <Text>MOUNT EVEREST</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>KANGCHENJUNGA</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>LHOTSE</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>MAKALU</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>DENALI</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>MONT BLANC</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>MATTERHORN</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>KILIMANJARO</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+  <WordModel>
+    <Text>ELBRUS</Text>
+    <Type>Mountain</Type>
+  </WordModel>
+
+  <WordModel>
+    <Text>NILE</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>AMAZON</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>YANGTZE</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>MISSISSIPPI</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>DANUBE</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>GANGES</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>VOLGA</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>RHINE</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>MEKONG</Text>
+    <Type>River</Type>
+  </WordModel>
+  <WordModel>
+    <Text>THAMES</Text>
+    <Type>River</Type>
+  </WordModel>
+</ArrayOfWordModel>

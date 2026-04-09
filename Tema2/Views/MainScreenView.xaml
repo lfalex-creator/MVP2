@@ -1,0 +1,74 @@
+﻿<Page x:Class="Tema2.Views.MainScreenView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tema2.Views"
+      xmlns:converters="clr-namespace:Tema2.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainScreenView">
+    <Page.Resources>
+        <converters:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <converters:BoolVisibilityMultiConverter x:Key="BoolVisibilityMultiConverter"/>
+    </Page.Resources>
+    <Grid DataContext="{Binding MainWindow.DataContext, Source={x:Static Application.Current}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Welcome to a Hangman game!" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" FontSize="20" HorizontalAlignment="Center"/>
+        <Image Source="{Binding SelectedListItem.ImagePath}" Visibility="{Binding AUserSelected, Converter={StaticResource BoolVisibilityConverter}}" Grid.Row="1" Grid.Column="1"/>
+        <ListBox x:Name="UserList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedListItem, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="top" Margin="0,10,0,0" MaxWidth="240">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="←" Grid.Column="0" HorizontalAlignment="Center" Command="{Binding PreviousImageCommand}">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource BoolVisibilityMultiConverter}">
+                        <Binding Path="LocalImage"/>
+                        <Binding Path="AUserSelected"/>
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
+            <Button Content="..." Grid.Column="1" HorizontalAlignment="Center" Visibility="{Binding AUserSelected, Converter={StaticResource BoolVisibilityConverter}}" Command="{Binding ChooseImageCommand}"/>
+
+            <Button Content="→" Grid.Column="2" HorizontalAlignment="Center" Command="{Binding NextImageCommand}">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource BoolVisibilityMultiConverter}">
+                        <Binding Path="LocalImage"/>
+                        <Binding Path="AUserSelected"/>
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="New User" Grid.Column="0" HorizontalAlignment="Center" Command="{Binding AddUserCommand}"/>
+            <Button Content="Delete User" Grid.Column="1" HorizontalAlignment="Center" Command="{Binding RemoveUserCommand}" CommandParameter="{Binding ElementName=UserList}" IsEnabled="{Binding AUserSelected}"/>
+            <Button Content="Play" Grid.Column="2" HorizontalAlignment="Center" Command="{Binding SwitchViewsCommand}" CommandParameter="{x:Type local:GameView}" IsEnabled="{Binding AUserSelected}"/>
+            <Button Content="Cancel" Grid.Column="3" HorizontalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Page>

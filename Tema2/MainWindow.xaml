@@ -1,0 +1,19 @@
+﻿<Window x:Class="Tema2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tema2"
+        xmlns:ctx="clr-namespace:Tema2.VMs"
+        mc:Ignorable="d"
+        Title="Hangman" Height="450" Width="800">
+    <Window.DataContext>
+        <ctx:MainScreenVM />
+    </Window.DataContext>
+    <Grid>
+        <Border Background="PaleVioletRed">
+            <Frame NavigationUIVisibility="Hidden"
+                   Content="{Binding CurrentView}"/>
+        </Border>
+    </Grid>
+</Window>
