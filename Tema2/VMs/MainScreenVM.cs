@@ -36,7 +36,6 @@ namespace Tema2.VMs
             if (imageNumber == 5)
                 imageNumber = 1;
             SelectedListItem.ImagePath = $"pack://application:,,,/imgs/{imageNumber}.jpg";
-           //NotifyPropertyChanged("LocalImage");
         }
 
         public ICommand PreviousImageCommand { get; set; }
@@ -48,7 +47,6 @@ namespace Tema2.VMs
             if (imageNumber == 0)
                 imageNumber = 4;
             SelectedListItem.ImagePath = $"pack://application:,,,/imgs/{imageNumber}.jpg";
-            //NotifyPropertyChanged("LocalImage");
         }
         public ObservableCollection<UserModel> Users { get; set; }
 
@@ -125,15 +123,13 @@ namespace Tema2.VMs
         {
             Users= users;
             SelectedListItem= null;
-
-            //imageNumer = 1;
-            //ImagePath = "pack://application:,,,/imgs/1.jpg";
-
+            
             NextImageCommand = new IndependentExecutionCommand(NextImage);
             PreviousImageCommand=new IndependentExecutionCommand(PreviousImage);
             AddUserCommand = new IndependentExecutionCommand(AddUser);
             RemoveUserCommand = new IndependentExecutionCommand(RemoveUser);
             ChooseImageCommand = new IndependentExecutionCommand(ChangeImage);
+            CloseCommand = new IndependentExecutionCommand(Close);
         }
 
         public ICommand ChooseImageCommand { get; set;  }
@@ -143,7 +139,13 @@ namespace Tema2.VMs
             dialog.ShowDialog();
             string result = dialog.FileName.Replace("\\","/");
             SelectedListItem.ImagePath = result;
-            //NotifyPropertyChanged("LocalImage");
+            NotifyPropertyChanged("LocalImage");
+        }
+
+        public ICommand CloseCommand { get; set; }
+        private void Close()
+        {
+            Application.Current.Shutdown();
         }
     }
 }

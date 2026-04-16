@@ -31,7 +31,7 @@ namespace Tema2.Views
         }
         public void RevealLetter(object sender, KeyEventArgs e)
         {
-            (DataContext as GameVM).RevealLetterCommand.Execute(e.Key);
+            (DataContext as GameVM).KeyboardRevealLetterCommand.Execute(e.Key);
         }
     }
 }

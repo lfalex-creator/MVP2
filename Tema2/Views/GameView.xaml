@@ -17,8 +17,6 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Width" Value="17"/>
         </Style>
-        
-        <converters:ColourEnumConverter x:Key="ColourEnumConverter"/>
     </Page.Resources>
     <Page.InputBindings>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveGameCommand}"/>
@@ -95,7 +93,7 @@
             <ItemsControl ItemsSource="{Binding Buttons}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button IsEnabled="{Binding IsActive}" Content="{Binding Letter}" />
+                        <Button IsEnabled="{Binding IsActive}" Content="{Binding Letter}" Command="{Binding DataContext.ClickRevealLetterCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>

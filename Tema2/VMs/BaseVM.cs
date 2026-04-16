@@ -58,6 +58,7 @@ namespace Tema2.VMs
         {
             GameVM temp = CurrentVM as GameVM;
             CurrentVM = new MainScreenVM(new ObservableCollection<UserModel>(temp.Users));
+            temp.Dispose();
         }
 
 

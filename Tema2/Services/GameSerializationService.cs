@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
+using System.Windows;
 using System.Xml.Serialization;
 using Tema2.Models;
 
@@ -23,14 +24,27 @@ namespace Tema2.Services
         }
         public void Deserialize(string target)
         {
-            FileStream fileStr = new FileStream($"games\\{target}.xml", FileMode.Open);
+            FileStream fileStr;
+            try
+            {
+               fileStr = new FileStream($"games\\{target}.xml", FileMode.Open);
+            }
+            catch 
+            {
+                MessageBox.Show("Save does not exist.");
+                return;
+            }
             GameModel dummyGame = new XmlSerializer(typeof(GameModel)).Deserialize(fileStr) as GameModel;
 
             aGame.Level = dummyGame.Level;
             aGame.Word = dummyGame.Word;
             aGame.DisplayWord = dummyGame.DisplayWord;
             aGame.NameOfUser = dummyGame.NameOfUser;
-
+            aGame.SaveName=dummyGame.SaveName;
+            aGame.Lives=dummyGame.Lives;
+            aGame.ActiveButtons=dummyGame.ActiveButtons;
+            aGame.ClockValue=dummyGame.ClockValue;
+            aGame.WordType=dummyGame.WordType;
             fileStr.Dispose();
         }
 

@@ -68,7 +68,7 @@
             <Button Content="New User" Grid.Column="0" HorizontalAlignment="Center" Command="{Binding AddUserCommand}"/>
             <Button Content="Delete User" Grid.Column="1" HorizontalAlignment="Center" Command="{Binding RemoveUserCommand}" CommandParameter="{Binding ElementName=UserList}" IsEnabled="{Binding AUserSelected}"/>
             <Button Content="Play" Grid.Column="2" HorizontalAlignment="Center" Command="{Binding MainWindow.DataContext.StartGameCommand, Source={x:Static Application.Current}}" IsEnabled="{Binding AUserSelected}"/>
-            <Button Content="Cancel" Grid.Column="3" HorizontalAlignment="Center"/>
+            <Button Content="Cancel" Grid.Column="3" HorizontalAlignment="Center" Command="{Binding CloseCommand}"/>
         </Grid>
     </Grid>
 </Page>

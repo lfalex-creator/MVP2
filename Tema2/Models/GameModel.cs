@@ -12,6 +12,7 @@ namespace Tema2.Models
         public string Word  { get; set; }
         public string DisplayWord { get; set; }
         public int ClockValue { get; set; }
+        public string WordType { get; set; }
 
         public bool[] Lives { get; set; }
 

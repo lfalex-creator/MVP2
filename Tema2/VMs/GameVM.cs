@@ -14,7 +14,7 @@ using Tema2.Services;
 
 namespace Tema2.VMs
 {
-    class GameVM : INotifyPropertyChanged
+    class GameVM : INotifyPropertyChanged, IDisposable
     {
         public ObservableCollection<ButtonModel> Buttons {  get; set; }
         private Dictionary<char, ButtonModel> buttonsFromLetters;
@@ -71,65 +71,80 @@ namespace Tema2.VMs
                     backingDisplayArray[i] = '_';
             }
             DisplayString= new string(backingDisplayArray);
-            
-        }
-        public ICommand RevealLetterCommand { get; set; }
 
-        public void RevealLetter(Key key)
+        }
+        public ICommand KeyboardRevealLetterCommand { get; set; }
+
+        public ICommand ClickRevealLetterCommand { get; set; }
+        private void KeyBoardRevealLetter(Key key)
         {
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                 return;
 
-                if (key >= Key.A  && key <= Key.Z)
+            if (key >= Key.A  && key <= Key.Z)
             {
                 char k=key.ToString()[0];
-                if (buttonsFromLetters[k].IsActive == false)
-                    return;
-                buttonsFromLetters[k].IsActive = false;
-                if (wordString.Contains(k))
+                AddLetter(k);
+            }
+        }
+
+        private void ClickRevealLetter(string s)
+        {
+            AddLetter(s[0]);
+        }
+
+        private void AddLetter(char letter)
+        {
+            if (buttonsFromLetters[letter].IsActive == false)
+                return;
+            buttonsFromLetters[letter].IsActive = false;
+            if (wordString.Contains(letter))
+            {
+                for (int i = 0; i < wordString.Length; i++)
+                    if (letter == wordString[i])
+                        backingDisplayArray[i] = letter;
+
+                DisplayString = new string(backingDisplayArray);
+
+                if (backingDisplayArray.Contains('_') == false)
                 {
-                    for (int i = 0; i < wordString.Length; i++)
-                        if (k == wordString[i])
-                            backingDisplayArray[i] = k;
-
-                    DisplayString = new string(backingDisplayArray);
-
-                    if (backingDisplayArray.Contains('_') == false)
+                    timer.Stop();
+                    
+                    
+                    if (LevelNumber == 3)
                     {
-                        timer.Stop();
                         MessageBox.Show("Congratulations, you've won!");
-                        timer.Start();
-                        LevelNumber++;
-                        if(LevelNumber==4)
-                        {
-                            LevelNumber = 1;
-                            User.NumberOfGamesWon++;
-                            User.NumberOfGamesPlayed++;
-                        }
-                        Reset();
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < 6; i++)
-                        if (Lives[i].Letter == ' ')
-                        {
-                            Lives[i].Letter = 'X';
-                            break;
-                        }
-                    HangmanStatus++;
-                    if(HangmanStatus==6)
-                    {
-                        timer.Stop();
-                        MessageBox.Show("You've lost.");
-                        timer.Start();
-                        User.NumberOfGamesPlayed++;
                         LevelNumber = 1;
-                        Reset();
+                        User.NumberOfGamesWon++;
+                        User.NumberOfGamesPlayed++;
                     }
+                    else
+                        LevelNumber++;
+                    Reset();
+                    timer.Start();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 6; i++)
+                    if (Lives[i].Letter == ' ')
+                    {
+                        Lives[i].Letter = 'X';
+                        break;
+                    }
+                HangmanStatus++;
+                if (HangmanStatus == 6)
+                {
+                    timer.Stop();
+                    MessageBox.Show("You've lost.");
+                    timer.Start();
+                    User.NumberOfGamesPlayed++;
+                    LevelNumber = 1;
+                    Reset();
                 }
             }
         }
+
         private void Reset()
         {
             for (int i = 0; i < 6; i++)
@@ -175,7 +190,8 @@ namespace Tema2.VMs
             User = selectedUser;
             this.Users = Users.ToList();
 
-            RevealLetterCommand = new RelayCommand<Key>(RevealLetter);
+            KeyboardRevealLetterCommand = new RelayCommand<Key>(KeyBoardRevealLetter);
+            ClickRevealLetterCommand = new RelayCommand<string>(ClickRevealLetter);
             SelectNewCategoryCommand = new RelayCommand<string>(SelectNewCategory);
             NewGameCommand = new IndependentExecutionCommand(Reset);
             SaveGameCommand = new IndependentExecutionCommand(SaveCurrentGame);
@@ -211,7 +227,7 @@ namespace Tema2.VMs
 
             selectRandomWord();
 
-            CurrentGame = new GameModel() { Level = LevelNumber, Word = wordString, DisplayWord = DisplayString };
+            CurrentGame = new GameModel();
             gameSerializationService = new(CurrentGame);
 
             timer.Start();
@@ -272,10 +288,13 @@ namespace Tema2.VMs
         public void SaveCurrentGame()
         {
             timer.Stop();
-
+            CurrentGame.Level = LevelNumber;
+            CurrentGame.Word = wordString;
+            CurrentGame.DisplayWord = DisplayString;
             CurrentGame.NameOfUser = User.Name;
             CurrentGame.ClockValue = ClockValue;
             CurrentGame.Lives = new bool[6];
+            CurrentGame.WordType = WordType;
             for (int i = 0; i < 6; i++)
                 CurrentGame.Lives[i] = Lives[i].Letter == 'X' ? false : true;
             CurrentGame.ActiveButtons= new bool[26];
@@ -301,12 +320,13 @@ namespace Tema2.VMs
 
             if(CurrentGame.NameOfUser!= User.Name)
             {
-                MessageBox.Show("Cannot open saved game, user doesn not have access");
+                MessageBox.Show("Cannot open saved game, user does not have access");
                 CurrentGame.Level = LevelNumber;
                 CurrentGame.NameOfUser = User.Name;
                 CurrentGame.Word = wordString;
                 CurrentGame.DisplayWord = DisplayString;
                 CurrentGame.ClockValue = ClockValue;
+                CurrentGame.WordType = WordType;
                 CurrentGame.Lives = new bool[6];
                 for (int i = 0; i < 6; i++)
                     CurrentGame.Lives[i] = Lives[i].Letter == 'X' ? false : true;
@@ -320,7 +340,7 @@ namespace Tema2.VMs
                 wordString = CurrentGame.Word;
                 DisplayString = CurrentGame.DisplayWord;
                 ClockValue = CurrentGame.ClockValue;
-
+                WordType= CurrentGame.WordType;
                 int temp = 0;
                 for (int i = 0; i < 6; i++)
                 { 
@@ -350,6 +370,13 @@ namespace Tema2.VMs
         private void About()
         {
             MessageBox.Show("Lupu Alexandru-Florin\nGrupa 2 (10LF342)\nInformatica Aplicata");
+        }
+
+        public void Dispose()
+        {
+            timer.Stop();
+            timer.Tick -= UpdateValue;
+            timer = null;
         }
     }
 }

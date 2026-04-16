@@ -23,18 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="imgs\1.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="imgs\2.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="imgs\3.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="imgs\4.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="imgs\1.jpg" />
+    <Resource Include="imgs\2.jpg" />
+    <Resource Include="imgs\3.jpg" />
+    <Resource Include="imgs\4.jpg" />
     <Resource Include="imgs\hangman\0.png" />
     <Resource Include="imgs\hangman\1.png" />
     <Resource Include="imgs\hangman\2.png" />
